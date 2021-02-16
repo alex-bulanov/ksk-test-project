@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="preload" href="fonts/Montserrat-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="fonts/Montserrat-Medium.woff" as="font" type="font/woff" crossorigin="anonymous">
+
+  <meta name="description" content="тестовое задание, компонент формы выбора доставки">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="vendors/css/normalize.min.css">
+  <link rel="stylesheet" href="css/style.min.css">
+  <script src="vendors/js/polyfills.min.js"></script>
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+  <title>Форма</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <main>
+        <h1 class="visually-hidden">тестовое задание для компании КСК</h1>
+        <section class="section">
+          <div class="section__wrapper">
+            <h2 class="section__title">Выберите способ доставки</h2>
+
+            <div class="tabs" id="tabs">
+              <div class="tabs__triggers">
+                <a class="tabs__trigger" href="#item-1">Доставка</a>
+                <a class="tabs__trigger" href="#item-2">Самовывоз</a>
+              </div>
+
+              <div class="accordion">
+                <div class="accordion__item tabs__item" id="item-1" data-open='true'>
+                  <button class="accordion__trigger" type="button" aria-label="Форма для доставки">Доставка</button>
+                  <div class="accordion__content">
+                    <form class="form delivery-form" action="#" method="POST" id="delivery-form">
+                      <div class="form__wrapper">
+                        <div class="form__container delivery-form__container">
+                          <label class="form__label delivery-form__label" for="name">ФИО</label>
+                          <input class="form__input delivery-form__input" type="text" name="name" id="name"
+                            placeholder="Только кириллица">
+                        </div>
+                        <div class="form__container delivery-form__container">
+                          <label class="form__label delivery-form__label" for="phone">Телефон</label>
+                          <input class="form__input delivery-form__input" type="tel" name="phone" id="phone"
+                            data-mask="+7 (000) 000-00-00" placeholder="+7 (___) ___-__-__">
+                        </div>
+                        <div class="form__container delivery-form__container">
+                          <label class="form__label delivery-form__label" for="address">Адрес
+                            доставки</label>
+                          <input class="form__input delivery-form__input" type="text" name="address" id="address"
+                            placeholder="Город, улица, дом">
+                        </div>
+                        <div class="form__container delivery-form__container">
+                          <label class="form__label delivery-form__label" for="message">Комментарий</label>
+                          <textarea class="form__input delivery-form__input" name="message" id="message"></textarea>
+                        </div>
+
+                        <button class="form__button button delivery-form__button" type="submit">Отправить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="accordion__item tabs__item" id="item-2" data-open='false'>
+                  <button class="accordion__trigger" type="button" aria-label="Форма для самовывоза">Самовывоз</button>
+                  <div class="accordion__content">
+                    <form class="form pick-up-form" action="#" method="POST" id="pick-up-form">
+                      <div class="form__wrapper">
+                        <div class="form__container pick-up-form__container">
+                          <input class="form__input form__input--radio pick-up-form__input visually-hidden" type="radio"
+                            name="extradition" value="Песчаная улица, дом 13" id="pick-up-item_1">
+                          <label class="form__label form__label--radio" for="pick-up-item_1">Пункт Выдачи заказов
+                            Песчаная улица, дом 13</label>
+                        </div>
+                        <div class="form__container pick-up-form__container">
+                          <input class="form__input form__input--radio pick-up-form__input visually-hidden" type="radio"
+                            name="extradition" value="Подсосенский переулок, 11" id="pick-up-item_2">
+                          <label class="form__label form__label--radio" for="pick-up-item_2">Пункт Выдачи
+                            заказов
+                            Подсосенский переулок, 11</label>
+                        </div>
+                        <div class="pick-up-form__map" id="map"></div>
+
+                        <button class="form__button button pick-up-form__button" type="submit">Отправить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="popup">
+    <div class="popup__body">
+      <button class="popup__cross popup-close">
+        <span class="visually-hidden">Закрыть попап</span>
+      </button>
+      <div class="popup__container">
+        <h3 class="popup__title"></h3>
+        <p class="popup__text"></p>
+      </div>
+      <button class="popup__button button popup-close">Закрыть</button>
+    </div>
+  </div>
+
+  <script src="js/scripts.min.js"></script>
+
+  <script>
+
+    ymaps.ready(init);
+    let myMap = null;
+    function init() {
+
+      myMap = new ymaps.Map('map', {
+        center: [55.751574, 37.573856],
+        zoom: 9,
+        controls: []
+      });
+
+      myMap.controls.add('zoomControl', {
+        float: 'none',
+        size: 'small',
+        position: {
+          right: 16,
+          bottom: 16
+        }
+      });
+      myMap.behaviors.disable(['scrollZoom']);
+      myMap.behaviors.enable(['multiTouch']);
+
+      if (/Android|webOS|iPhone|iPad|iPod|Samsung|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < window.utils.TABLET_WIDTH) {
+        myMap.behaviors.disable(['drag']);
+      }
+
+      const coordinates = Object.values(window.data.pinsСoordinates);
+
+      for (let item of coordinates) {
+        let myPlacemark = new ymaps.Placemark(item, {},
+          {
+            iconLayout: `default#imageWithContent`,
+            iconImageHref: `./img/marker.png`,
+            iconImageSize: [32, 44],
+            iconImageOffset: [-16, -56]
+          });
+
+        myMap.geoObjects
+          .add(myPlacemark)
+      }
+    }
+
+  </script>
+
+
+</body>
+
+</html>

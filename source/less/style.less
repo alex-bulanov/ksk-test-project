@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Medium.woff2") format("woff2"), url("../fonts/Montserrat-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import "blocks/variables.less";
+@import "blocks/visually-hidden.less";
+@import "blocks/lock.less";
+@import "blocks/wrapper.less";
+@import "blocks/section.less";
+@import "blocks/accordion.less";
+@import "blocks/tabs.less";
+@import "blocks/form.less";
+@import "blocks/button.less";
+@import "blocks/delivery-form.less";
+@import "blocks/pick-up-form.less";
+@import "blocks/popup.less";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  padding: 0;
+  min-width: 320px;
+  font-family: "Montserrat", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 26px;
+  color: #000000;
+  background-color: #f6f6f6;
+}

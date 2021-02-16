@@ -1,1 +1,3 @@
-# ksk-test-project
+# тестовое задание для компании «КСК»
+
+* Выполнил: [Александр Буланов](https://up.htmlacademy.ru/javascript/19/user/593835).

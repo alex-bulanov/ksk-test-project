@@ -1,0 +1,41 @@
+.pick-up-form {
+  padding-top: 22px;
+  padding-bottom: 23px;
+}
+
+.pick-up-form__container {
+  margin-bottom: 18px;
+}
+
+.pick-up-form__container:nth-last-of-type(2) {
+  margin-bottom: 24px;
+}
+
+.pick-up-form__map {
+  min-height: 303px;
+  margin-bottom: 36px;
+  background: #e4f0da no-repeat url("../img/bg-map-mobile.jpg") center / cover;
+}
+
+@media (min-width: @medium-width) {
+  .pick-up-form {
+    padding-top: 33px;
+    padding-bottom: 36px;
+  }
+
+  .pick-up-form__map {
+    width: 100%;
+    min-height: 548px;
+    background: #e4f0da no-repeat url("../img/bg-map-tablet.jpg") center / cover;
+  }
+}
+
+@media (min-width: @large-width) {
+  .pick-up-form__container {
+    margin-bottom: 32px;
+  }
+
+  .pick-up-form__container:nth-last-of-type(2) {
+    margin-bottom: 32px;
+  }
+}
